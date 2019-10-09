@@ -1,0 +1,82 @@
+{% extends "squelette.html" %}
+
+{% block name %}
+{{ name }}
+{% endblock %}
+
+{% block imports %}
+<script type="text/javascript" src="..\static\bootstrap\dist\js\bootstrap.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+{% endblock %}
+
+{% block body %}
+{{ super() }}
+<fieldset>
+    <legend>
+        {{ event.summary }}
+    </legend>
+
+    <div class="row">
+        <div class="col-12">
+                <table class="table table-striped">
+                    <tr>
+                        <td>
+                             <u>Date de début</u>:
+                        </td>
+                        <td>
+                            <div class="dateToParse">
+                                 {{ event.start }}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                             <u>Date de fin</u>:
+                        </td>
+                        <td>
+                            <div class="dateToParse">
+                               {{ event.end }}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <u>Description</u> :
+                        </td>
+                        <td>
+                            <div class="dateToParse">
+                                 {{ event.description }}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <u>Participant(s)</u> :
+                        </td>
+                        <td>
+                            <div class="dateToParse">
+                                 {{ event.attendees|length }} {{ event.attendees}}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+</fieldset>
+{% endblock %}
+
+{% block script %}
+window.onload = function() {
+arrayElementStart = document.getElementsByClassName("dateToParse");
+Array.prototype.forEach.call(arrayElementStart, function(el) {
+    console.log(el.innerHTML);
+    var array = el.innerHTML.split("'");
+    var date = array[3];
+    parsedString = date.substring(0, 10);
+    parsedStringH = date.substring(11, 16);
+    el.innerHTML = parsedString+" (y-m-d) "+parsedStringH+" (h:m)";
+    });
+};
+{% endblock %}
+

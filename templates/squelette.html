@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% block imports %}
+    <script type="text/javascript" src="..\static\bootstrap\dist\js\bootstrap.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script type="text/javascript" src="..\static\jquery\src\jquery.js"></script>
+    <script type="text/javascript" src="..\static\moment\moment.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/flick/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<!--    links rel for datetimepicker   -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/flick/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="..\static\jQuery-Timepicker-Addon-master\dist\jquery-ui-sliderAccess.js"></script>
+    <!-- Required -->
+    <link rel="stylesheet" href="..\static\jQuery-Timepicker-Addon-master\dist\jquery-ui-timepicker-addon.css">
+    <script src="..\static\jQuery-Timepicker-Addon-master\dist\jquery-ui-timepicker-addon.js"></script>
+    <!-- Optional -->
+    <script src="..\static\jQuery-Timepicker-Addon-master\dist\i18n/jquery-ui-timepicker-addon-i18n.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
+<!-- -->
+
+{% endblock %}
+<style>
+{% block style %}
+.centered{
+  margin: 0 auto;
+     width: 100px;
+}
+#gauche {
+	width: 50%;
+	height: 100%;
+	float: left;
+}
+
+#droite {
+	width: 50%;
+	height: 100%;
+	float: left;
+}
+
+body{
+height: 100%;
+background: radial-gradient(lightsteelblue, cornflowerblue, #007bff );
+    background-color: #fcfcfc;
+}
+
+.logo{
+    max-height: 35px;
+    border-radius: 50%;
+}
+.navbar-nav {
+    flex-direction: row;
+}
+.nav-item{
+    margin: 5px;
+}
+.modal-dialog {
+    position : absolute;
+    z-index: 10040;
+    padding:20px;
+    min-height: 200px;
+    margin: 0 auto;
+    width: 800px;
+    box-shadow: 4px 4px 4px 2px #aaa;
+}
+
+{% endblock %}
+
+</style>
+<script>
+{% block script %}
+
+{% endblock %}
+</script>
+    <meta charset="UTF-8">
+    {% block title %}
+        <title>Social Planning</title>
+    {% endblock %}
+    {% block header2 %}
+
+    {% endblock %}
+
+</head>
+<body>
+{% block header %}
+<nav class="navbar navbar-dark bg-primary" style="box-shadow: 0 0px 5px 0px #D3D3D3;">
+
+    <ul class="navbar-nav mr-auto">
+      <!--<li class="nav-item  {% if request.path == '/' %}active {% endif %}">-->
+      <!--  <a class="nav-link" href="/">Home <span class="sr-only"></span></a>-->
+      <!--</li>-->
+        <li class="nav-item {% if request.path == '/calendrier' %}active {% endif %}">
+        <a class="nav-link" href="/calendrier">Calendrier <span class="sr-only"></span></a>
+      </li>
+      <li class="nav-item {% if request.path == '/events' %} active {% endif %} ">
+        <a class="nav-link" href="/events">Evenements <span class="sr-only"></span></a>
+      </li>
+        <li class="nav-item {% if request.path == '/notifs' %} active {% endif %}">
+        <a class="nav-link" href="/notifs">Notifications <span class="sr-only"></span></a>
+      </li>
+      <li class="nav-item {% if request.path == '/userInfo' %} active {% endif %}">
+        <a class="nav-link" href="/userInfo">{% block name %}{% endblock %}<span class="sr-only"></span></a>
+
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+
+        <li style="float:right;" class="nav-item ">
+
+            <a style="float:right; color:white;" class="nav-link" href="/logout">Se Déconnecter<span class="sr-only"></span></a>
+        </li>
+    </ul>
+
+</nav>
+{% endblock %}
+<div style="margin-bottom:20px;"></div>
+    <div style = "background-color:white; border-radius : 25px; padding:20px;min-height: 400px;margin: 0 auto; width: 800px; box-shadow: 4px 4px 4px 2px #aaa; ">
+    {% block body %}
+    {% endblock %}
+    </div>
+<!-- Footer -->
+<footer style="position: fixed;left: 0;bottom: 0;width: 100%;heigt:15px;color: white;text-align: center;background-color:#007bff;box-shadow: 0 -5px 5px -5px #D3D3D3;">
+    <!-- Call to action -->
+        <p><h5 class="mb-1">Telecharger la version mobile !</h5>
+        <a href="/downloadFile" class="btn btn-info btn-lg" style="border: 2px solid white;color:white;background-color:#007bff;">
+            <span class="glyphicon glyphicon-log-out"></span> SocialPlanning.apk
+        </a>
+        <!--<button id="btnDownload" class="btn info" style="border: 2px solid white;color:white;background-color:#007bff;">SocialPlanning.apk</button></p>
+  <!-- Copyright -->
+    <p>© Soutenance 2019 ESGI: Robin SAINT GEORGES</p>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+</body>
+</html>

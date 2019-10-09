@@ -1,0 +1,100 @@
+{% extends "squelette.html" %}
+{% block name %}
+{{ name }}
+{% endblock %}
+{% block script %}
+{{ super() }}
+$(function () {
+    $('btnDownload').on('click', function () {
+        $.ajax({
+            url: 'downloadFile',
+            data: {
+            },
+            dataType : 'json'
+        });
+    });
+});
+{% endblock %}
+{% block style %}
+{{ super() }}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+{% endblock %}
+{% block body %}
+{{ super() }}
+<div class="row">
+    <div class="col-6">
+        <img style="width : auto; height : 300px; border-radius: 25px;box-shadow: 5px 5px 5px black;" class="centered" src="{{ profilPic }}" alt="Google profile pic">
+    </div>
+    <div class="col-6">
+        <table class="w3-table-all" style = "float-left; margin : auto;">
+                <tr>
+                    <td>{{ userName }}</td>
+                </tr>
+                <tr>
+                    <td>{{ fName|upper }}</td>
+                </tr>
+                <tr>
+                    <td>{{ email }}</td>
+                </tr>
+                <tr>
+                    <td>Nationalité : {{ locale }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="/download" class="btn btn-secondary">
+                        <span class="glyphicon glyphicon-download"></span> Telecharger données personnelles
+                        </a>
+                    </td>
+                </tr>
+                 <tr>
+                    <td>
+                        <a href="/deleteDatas" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-eye-close"></span> Supprimer données personnelles
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="/logout" class="btn btn-info btn-lg">
+                        <span class="glyphicon glyphicon-log-out"></span> Log out
+                        </a>
+                    </td>
+                </tr>
+            </table>
+    </div>
+</div>
+
+
+<!--    <div id="gauche">-->
+<!--        <div class = "centered">-->
+<!--            <div>-->
+<!--              <img style="width : auto; height : 300px; border-radius: 35%;box-shadow: 5px 5px 5px black;" class="centered" src="{{ profilPic }}" alt="Google profile pic"></img>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div id="droite" >-->
+<!--            <table class="w3-table-all" style = "float-left; margin : 20px;">-->
+<!--                <tr>-->
+<!--                    <td>{{ userName }}</td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td>{{ fName|upper }}</td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td>{{ email }}</td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td>Nationnalité : {{ locale }}</td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td>-->
+<!--                        <a href="/logout" class="btn btn-info btn-lg">-->
+<!--                        <span class="glyphicon glyphicon-log-out"></span> Log out-->
+<!--                        </a>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--            </table>-->
+<!--    </div>-->
+
+{% endblock %}

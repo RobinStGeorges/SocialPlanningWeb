@@ -1,0 +1,71 @@
+{% extends "squelette.html" %}
+{% block name %}
+{{ name }}
+{% endblock %}
+{% block imports %}
+{{ super() }}
+<script type="text/javascript">
+
+</script>
+{% endblock %}
+{% block body %}
+{{ super() }}
+
+<table class="table table-striped">
+    <tr>
+        <th>
+
+        </th>
+        <th>
+            Titre
+        </th>
+        <th>
+            statut
+        </th>
+    </tr>
+
+{% if notifications is not none %}
+{% for notification in notifications %}
+    <tr>
+        <td>
+            {% if notification[4] == "en attente de réponse" %}
+            <button class="btn btn-success">
+                <a href="/manageNotificationResponse/{{notification[3]}}/valider/{{notification[0]}}" class="btn btn-success">
+                    <span class="glyphicon glyphicon-ok"></span>
+                </a>
+            </button>
+            <button class="btn btn-danger">
+                <a href="/manageNotificationResponse/{{notification[3]}}/refuser/{{notification[0]}}" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
+            </button>
+            {% else %}
+            <center>
+                <button class="btn btn-primary">
+                    <span class=" glyphicon glyphicon-play-circle"></span>
+                </button>
+            </center>
+
+            {% endif %}
+        </td>
+        <td>
+            {{ notification[2] }}
+        </td>
+        <td>
+            <p>
+            {{ notification[4] }}
+            </p>
+        </td>
+    </tr>
+{% endfor %}
+{% else %}
+<center><p> Vous n'avez pas encore de <b>notifications</b> ! Commencer à creer des évènements dès maintenant en cliquant sur <b>"Evenement"</b> !</p></center>
+{% endif %}
+</table>
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
+

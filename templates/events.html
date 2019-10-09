@@ -1,0 +1,112 @@
+{% extends "squelette.html" %}
+{% block name %}
+{{ name }}
+{% endblock %}
+{% block imports %}
+{{ super() }}
+<script type="text/javascript">
+ $(function() {
+    $('#dateFilterEvents').datepicker({dateFormat: 'dd-mm-yy'});
+ });
+
+function updatehours(){
+    var date = document.getElementById("dateFilterEvents").value;
+    console.log("la date : ");
+    console.log(date);
+    $.ajax({
+        type:"POST",
+        beforeSend: function(){
+        },
+        url:'getEventsByDay',
+        contentType: 'application/json;charset=UTF-8',
+        data:JSON.stringify({'date':date}),
+        success:function(responsedata){
+            console.log(responsedata);
+        }
+     })
+
+}
+
+</script>
+{% endblock %}
+{% block body %}
+{{ super() }}
+<div class="row" style="margin-bottom:20px;">
+    <div class="col-6">
+        <center>
+            <form>
+                {{ form.dateFilterEvents }}
+                <input type=submit class="btn btn-primary" formmethod="post" value=Filtrer par date>
+            </form>
+        </center>
+    </div>
+    <div class="col-6">
+        <center>
+            <button onclick="window.location.href='/addEvent'" style="" type="button" class="btn btn-primary">
+            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>Ajouter un évènement</button>
+        </center>
+    </div>
+</div>
+<table class="table table-striped">
+    <tr>
+        <th>
+
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Titre
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+
+        </th>
+    </tr>
+{% for event in events %}
+    <tr>
+        <td>
+            <button class="btn btn-primary">
+                <a href="/showEvent/{{event.id}}/" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-search"></span>
+                </a>
+            </button>
+        </td>
+        <td>
+            <div class="dateStart"> {{ event.start }} </div>
+        </td>
+        <td>
+            {{ event.summary }}
+        </td>
+        <td>
+            <p>
+            {{ event.description }}
+            </p>
+        </td>
+        <td>
+            <button class="btn btn-outline-danger">
+                <a href="/delete/{{event.id}}" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+            </button>
+        </td>
+    </tr>
+{% endfor %}
+</table>
+
+{% endblock %}
+
+{% block script %}
+window.onload = function() {
+arrayElementStart = document.getElementsByClassName("dateStart");
+Array.prototype.forEach.call(arrayElementStart, function(el) {
+    console.log(el.innerHTML);
+    parsedString = el.innerHTML.substring(15, 25);
+    parsedStringH = el.innerHTML.substring(27, 31);
+    el.innerHTML = parsedString+" "+parsedStringH;
+    });
+};
+{% endblock %}
+

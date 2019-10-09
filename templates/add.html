@@ -1,0 +1,371 @@
+{% extends "squelette.html" %}
+{% block name %}
+{{ name }}
+{% endblock %}
+{% block imports %}
+{{ super() }}
+
+<script type="text/javascript">
+ $(function() {
+   $("#start").datetimepicker({dateFormat: 'dd-mm-yy'});
+   $('#end').datetimepicker({dateFormat: 'dd-mm-yy'});
+   $('#dateForSearch').datepicker({dateFormat: 'dd-mm-yy'});
+ });
+
+$(document).ready(function() {
+    document.getElementById("validate").style.display = "none";
+    document.getElementById("end").onclick = toogleSendButton ;
+});
+
+</script>
+<script type="text/javascript">
+i=0;
+type=false;
+
+function addMail()
+{
+    document.getElementById("showForm").className = "col-8";
+    document.getElementById("showDates").style.display = "block";
+    i++;
+    var x = document.createElement("INPUT");
+    x.setAttribute("type", "text");
+    x.setAttribute("placeholder", "mail invité");
+    x.setAttribute("id", "mail"+i);
+    x.setAttribute("name", "mail"+i);
+    x.setAttribute("class", "mailInput");
+    x.setAttribute("style", "margin-top : 15px;");
+    x.setAttribute("style", "margin-bottom : 15px;border-color:red;");
+    x.setAttribute("onchange","isValidInput(this.id)");
+
+    var tableMail = document.getElementById('tableMail');
+    var back = document.createElement("TR");
+    back.appendChild(x);
+    tableMail.appendChild(back);
+
+}
+function verifTypeForm()
+{
+    for(itt=1; itt<=i;itt++)
+    {
+        var val = document.getElementById("mail"+itt).value;
+        var regex = /\w+[\.-]?\w+@gmail.com$/;
+        var found = val.match(regex);
+        if (val !="" && found != null)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+function isValidInput(id){
+    var input = document.getElementById(id)
+    var val = input.value;
+    var regex = /\w+[\.-]?\w+@gmail.com$/;
+    var found = val.match(regex);
+    if (val !="" && found != null)
+    {
+    input.setAttribute("style", "border-color:green;");
+        return true;
+    }
+    input.setAttribute("style", "border-color:red;");
+    return false;
+}
+function askToSend(){
+    let isSharred = verifTypeForm();
+    if(isSharred){
+        window.modal = document.getElementById("validModalTrue");
+        modal.style.display = "block";
+    }
+    else{
+        window.modal = document.getElementById("validModalFalse");
+        modal.style.display = "block";
+    }
+}
+window.onclick = function(event) {
+  if (event.target == window.modal) {
+    window.modal.style.display = "none";
+  }
+}
+
+function sendForm(){
+    document.getElementById("form").submit();
+}
+
+function toogleSendButton(){
+    var start = document.getElementById("start");
+    var end = document.getElementById("end");
+    console.log("start et end");
+    console.log(start.value);
+    console.log(end.value);
+
+    var reggie = /(\d{2})-(\d{2})-(\d{4}) (\d{2}):(\d{2})/;
+    var dateArrayStart = reggie.exec(start.value);
+    var dateObjectStart = new Date(
+        (+dateArrayStart[1]),
+        (+dateArrayStart[2])-1,
+        (+dateArrayStart[3]),
+        (+dateArrayStart[4]),
+        (+dateArrayStart[5])
+    );
+        var dateArrayEnd = reggie.exec(end.value);
+    var dateObjectEnd = new Date(
+        (+dateArrayEnd[1]),
+        (+dateArrayEnd[2])-1,
+        (+dateArrayEnd[3]),
+        (+dateArrayEnd[4]),
+        (+dateArrayEnd[5])
+    );
+    var isEndAfterStart = dateObjectEnd >= dateObjectStart
+
+    if(isEndAfterStart== 1 || isEndAfterStart == 0){
+        document.getElementById("validate").style.display = "block";
+    }
+}
+
+function getMailFieldValues()
+{
+    var arrayMails = [];
+    var elements = document.getElementsByClassName("mailInput");
+    for(element of elements){
+        arrayMails.push(element.value);
+    }
+    return arrayMails;
+}
+
+function isStartOrEndInHour(hour, hourStart, hourEnd){
+    if(Number(hour) == Number(hourStart) || Number(hour) == Number(hourEnd)){
+        console.log("true");
+        return true;
+    }
+    else{
+        console.log("false");
+        return false;
+    }
+}
+
+function initDictHour(){
+    var dictToReturn = {}
+    for(let itteration = 1; itteration<=24; itteration++){
+        dictToReturn[itteration] = {}
+    }
+    return dictToReturn;
+}
+
+function manageReturnedDatas(liste) {
+    console.log("manageReturnedDatas LIST :");
+    console.log(liste);
+    var length = liste.length;
+    var dictHour = {}
+    for (let hour = 1; hour <= 24; hour++) {
+        console.log("hour :")
+        console.log(hour);
+        for (let itter = 0; itter < length; itter++) {
+
+            console.log("itter");
+            console.log(itter);
+            console.log("item");
+            console.log(liste[itter]);
+            var item = liste[itter];
+            if (typeof item["mail"] !== 'undefined'){
+                var email = item["mail"];
+                var start = item["start"];
+                var end = item["end"];
+                var hourStart = (start.split(' ')[1]).split(':')[0];
+                var hourEnd = (end.split(' ')[1]).split(':')[0];
+
+                var isInHour = isStartOrEndInHour(hour, hourStart, hourEnd);
+                console.log("isInHour");
+                console.log(isInHour);
+                if (isInHour == true) {
+                    if (typeof dictHour[hour] === 'undefined') {
+                        dictHour[hour] = 1;
+                    } else {
+                        dictHour[hour]++;
+                    }
+                }
+            }
+
+        }
+    }
+    console.log("dictHour");
+    console.log(dictHour);
+    for (var k in dictHour) {
+        if (dictHour.hasOwnProperty(k)) {
+            var TR = document.createElement("TR");
+            var TDHour = document.createElement("TD");
+            var TDNumber = document.createElement("TD");
+            TDHour.innerHTML = k + ' h';
+            TDNumber.innerHTML = '[ ' + dictHour[k] + ' ]';
+
+            TR.appendChild(TDHour);
+            TR.appendChild(TDNumber);
+            tableHours.appendChild(TR);
+        }
+    }
+
+
+}
+
+function updatehours(){
+    $("#tableHours tr").remove();
+    console.log(getMailFieldValues());
+    var mailValues = getMailFieldValues();
+    var date = document.getElementById("dateForSearch").value;
+    console.log("la date : ");
+    console.log(date);
+    $.ajax({
+        type:"POST",
+        beforeSend: function(){
+            document.getElementById("msgLoad").style.display = 'block';
+        },
+        url:'getUsersOccupiedHours',
+        contentType: 'application/json;charset=UTF-8',
+        data:JSON.stringify({'mails':mailValues,'date':date}),
+        success:function(responsedata){
+            document.getElementById("msgLoad").style.display = 'none';
+            console.log("responsedata de type : "+typeof responsedata+" "+responsedata);
+            var arraySplited = responsedata.split('"');
+            console.log(arraySplited);
+            var listOfDictMailDateTime = [];
+            for(let iter = 0; iter<=(arraySplited.length % 12); iter++){
+                var dict = {};
+                var elementMail = arraySplited[iter*12+3];
+                var elementStart = arraySplited[iter*12+7];
+                var elementEnd = arraySplited[iter*12+11];
+                dict['mail'] = elementMail;
+                dict['start'] = elementStart;
+                dict['end'] = elementEnd;
+                listOfDictMailDateTime.push(dict);
+            }
+            console.log("listOfDictMailDateTime");
+            console.log(listOfDictMailDateTime);
+            manageReturnedDatas(listOfDictMailDateTime);
+        }
+     })
+
+}
+</script>
+
+
+{% endblock %}
+{% block body %}
+{{ super() }}
+<fieldset style="margin-top: 30px;">
+    <legend>Ajouter un évenement</legend>
+    <div class="row">
+        <div id="showForm" class="col-12">
+            <form id="form" action="/addEvent" method="post">
+                {{ form.typeEvent }}
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-3" style = "text-align : right;">
+                        </div>
+                        <div style="text-align: left;" class="col-3" style = "text-align : right;">
+                            <label for="titre">Titre</label>
+                        </div>
+                        <div class="col-6" style = "text-align : left;">
+                            {{ form.title }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                        <div class="row">
+                                <div class="col-3" style = "text-align : right;">
+                            </div>
+                            <div style="text-align: left;" class="col-3" style = "text-align : right;">
+                                <label for="description">Description</label>
+                            </div>
+                            <div class="col-6" style = "text-align : left;">
+                                {{ form.description }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-3" style = "text-align : right;">
+                            </div>
+                            <div style="text-align: left;" class="col-3" style = "text-align : right;">
+                                <label for="start">Date début</label>
+                            </div>
+                            <div class="col-6" style = "text-align : left;">
+                                {{ form.start }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-3" style = "text-align : center;">
+                                <button type="button" class="btn btn-success" style="font-size: 130%;" onclick="addMail()" aria-label="Left Align">
+                                  <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>Invités
+                                </button>
+                            </div>
+                            <div style="text-align: left;" class="col-3" style = "text-align : right;">
+                                <label for="end">Date fin</label>
+                            </div>
+                            <div class="col-6" style = "text-align : left;">
+                                {{ form.end }}
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="row">
+                    <div class="col-6">
+
+                    </div>
+                    <div class="col-6">
+                        <table id="tableMail" style="text-align : left;">
+                        </table>
+                    </div>
+                </div>
+            </form>
+        <div class="form-group" style = "text-align : center;">
+            <center>
+                <button id="validate" class="btn btn-primary" onclick="askToSend()" style="width:300px;"> Envoyer </button>
+            </center>
+        </div>
+    </div>
+    <div id="showDates" class="col-4" style="display:none;">
+        <center><div class="row">
+            <input id="dateForSearch" type="text" value="">
+        </div></center>
+        <center><div class="row">
+            <button id="checkHours" class="btn btn-primary" onclick="updatehours()">Chercher les horraires</button>
+        </div></center>
+        <div id="msgLoad" style="display:none">
+            [Chargement en cours ... ]
+        </div>
+        <fieldset>
+            <legend>Horraires occupés</legend>
+            <table id="tableHours">
+            <tr>
+                <th>Heures</th>
+                <th>Nombre</th>
+            </tr>
+            </table>
+        </fieldset>
+    </div>
+    </div>
+</fieldset>
+
+<!-- The Modal -->
+<div id="validModalTrue" style="position:fixed;bottom: 0;" class="modal">
+  <!-- Modal content -->
+    <div class="modal-content">
+        <p>L'évenement va être creer avec un(e)/des invité(e/s)</p>
+        <p>Comfirmer ?</p>
+      <button onclick="sendForm()" class="btn btn-primary">Envoyer</button>
+    </div>
+</div>
+<!-- The Modal -->
+<div id="validModalFalse" style="position:fixed;bottom: 0;"  class="modal">
+  <!-- Modal content -->
+    <div class="modal-content">
+        <p>L'évenement va être creer sans invité(s)</p>
+        <p>Comfirmer ?</p>
+      <button onclick="sendForm()" class="btn btn-primary">Envoyer</button>
+    </div>
+</div>
+
+
+{% endblock %}
