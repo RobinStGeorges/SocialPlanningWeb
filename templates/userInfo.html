@@ -14,6 +14,16 @@ $(function () {
         });
     });
 });
+
+function showInfosRGPD(){
+    window.modal = document.getElementById("infosRGPD");
+    modal.style.display = "block";
+}
+window.onclick = function(event) {
+  if (event.target == window.modal) {
+    window.modal.style.display = "none";
+  }
+}
 {% endblock %}
 {% block style %}
 {{ super() }}
@@ -61,40 +71,30 @@ $(function () {
                         </a>
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <button id="validate" class="btn btn-primary" onclick="showInfosRGPD()" style="width:auto;"> <span class="glyphicon glyphicon-exclamation-sign"></span>  </button>
+
+                    </td>
+                </tr>
             </table>
     </div>
 </div>
+<!-- The Modal -->
+<div id="infosRGPD" style="position:fixed;bottom: 0;" class="modal">
+  <!-- Modal content -->
+    <div class="modal-content">
+        <p>Merci d'utiliser Social Planning</p>
 
+        <p>Cette application utilise les informations fournies par
+        Google Calendar API</p>
 
-<!--    <div id="gauche">-->
-<!--        <div class = "centered">-->
-<!--            <div>-->
-<!--              <img style="width : auto; height : 300px; border-radius: 35%;box-shadow: 5px 5px 5px black;" class="centered" src="{{ profilPic }}" alt="Google profile pic"></img>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div id="droite" >-->
-<!--            <table class="w3-table-all" style = "float-left; margin : 20px;">-->
-<!--                <tr>-->
-<!--                    <td>{{ userName }}</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td>{{ fName|upper }}</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td>{{ email }}</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td>Nationnalité : {{ locale }}</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td>-->
-<!--                        <a href="/logout" class="btn btn-info btn-lg">-->
-<!--                        <span class="glyphicon glyphicon-log-out"></span> Log out-->
-<!--                        </a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--            </table>-->
-<!--    </div>-->
+        <p>Les autres utilisateurs n'ont accès qu'aux heures auxquels vous avez
+        des rendez-vous. Vous pouvez à tout moment supprimer votre compte
+        ainsi que les informations qui y sont liées</p>
+
+        <p>Ces données seront conservées jusqu'à la suppresion de votre compte</p>
+    </div>
+</div>
 
 {% endblock %}
