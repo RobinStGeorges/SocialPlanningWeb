@@ -252,7 +252,7 @@ function updatehours(){
 {% block body %}
 {{ super() }}
 <fieldset style="margin-top: 30px;">
-    <legend>Ajouter un évenement</legend>
+    <legend><b>Ajouter un évenement</b></legend>
     <div class="row">
         <div id="showForm" class="col-12">
             <form id="form" action="/addEvent" method="post">
@@ -330,13 +330,13 @@ function updatehours(){
             <input id="dateForSearch" type="text" value="">
         </div></center>
         <center><div class="row">
-            <button id="checkHours" class="btn btn-primary" onclick="updatehours()">Chercher les horraires</button>
+            <button id="checkHours" class="btn btn-primary" onclick="updatehours()">Chercher les horaires</button>
         </div></center>
         <div id="msgLoad" style="display:none">
             [Chargement en cours ... ]
         </div>
         <fieldset>
-            <legend>Horraires occupés</legend>
+            <legend>Horaires occupés</legend>
             <table id="tableHours">
             <tr>
                 <th>Heures</th>
@@ -352,8 +352,8 @@ function updatehours(){
 <div id="validModalTrue" style="position:fixed;bottom: 0;" class="modal">
   <!-- Modal content -->
     <div class="modal-content">
-        <p>L'évenement va être creer avec un(e)/des invité(e/s)</p>
-        <p>Comfirmer ?</p>
+        <p>L'évènement va être créé avec un(e)/des invité(e/s)</p>
+        <p>Confirmer ?</p>
       <button onclick="sendForm()" class="btn btn-primary">Envoyer</button>
     </div>
 </div>
@@ -361,8 +361,8 @@ function updatehours(){
 <div id="validModalFalse" style="position:fixed;bottom: 0;"  class="modal">
   <!-- Modal content -->
     <div class="modal-content">
-        <p>L'évenement va être creer sans invité(s)</p>
-        <p>Comfirmer ?</p>
+        <p>L'évènement va être créé sans invité(s)</p>
+        <p>Confirmer ?</p>
       <button onclick="sendForm()" class="btn btn-primary">Envoyer</button>
     </div>
 </div>

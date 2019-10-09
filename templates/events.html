@@ -65,6 +65,7 @@ function updatehours(){
 
         </th>
     </tr>
+{% if events is not none %}
 {% for event in events %}
     <tr>
         <td>
@@ -94,6 +95,7 @@ function updatehours(){
         </td>
     </tr>
 {% endfor %}
+{% endif %}
 </table>
 
 {% endblock %}
@@ -104,7 +106,7 @@ arrayElementStart = document.getElementsByClassName("dateStart");
 Array.prototype.forEach.call(arrayElementStart, function(el) {
     console.log(el.innerHTML);
     parsedString = el.innerHTML.substring(15, 25);
-    parsedStringH = el.innerHTML.substring(27, 31);
+    parsedStringH = el.innerHTML.substring(26, 31);
     el.innerHTML = parsedString+" "+parsedStringH;
     });
 };

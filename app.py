@@ -479,7 +479,7 @@ def addEvent():
         }
         event = service.events().insert(calendarId='primary', body=event).execute()
         for aMail in attendees:
-            notification.create(mysql, aMail['email'], 'invitation a l\'evenement '+event["summary"]+" de "+current_user.email, event["id"], "en attente de réponse")
+            notification.create(mysql, aMail['email'], 'invitation à l\'évènement '+event["summary"]+" de "+current_user.email+" le "+start, event["id"], "en attente de réponse")
         return redirect(url_for("showEvents"))
     return render_template('add.html', form=form, name=current_user.name + ' ' + current_user.familly_name.upper())
 
@@ -564,7 +564,6 @@ def manageNotificationResponse(id, reponse, idNotif):
 
 @app.route('/downloadFile', methods=["GET", "POST"])
 def downloadFile():
-    print("je download")
     return send_from_directory(directory='static', filename='socialPlanning.apk', as_attachment=True)
 
 # --------lancement de l'application--------
