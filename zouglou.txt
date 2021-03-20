@@ -35,7 +35,7 @@ imagesize==1.1.0
 infinity==1.4
 intervals==0.8.1
 itsdangerous==1.1.0
-Jinja2==2.10.1
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 mysqlclient==1.4.4
 numpy==1.17.0
