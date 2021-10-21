@@ -1,7 +1,7 @@
 alabaster==0.7.12
 asn1crypto==0.24.0
 Authlib==0.11
-Babel==2.7.0
+Babel==2.9.1
 beautifulsoup4==4.8.0
 bootstrap-py==0.8.2
 cachetools==3.1.1
