@@ -26,7 +26,7 @@ itsdangerous==1.1.0
 Jinja2==2.10.1
 -e git+https://github.com/heroku/kafka-helper@70aa539540e7d6517f0c3c1900617767ab198b6c#egg=kafka_helper
 MarkupSafe==1.1.1
-numpy==1.14.2
+numpy==1.22.0
 oauth2==1.9.0.post1
 oauth2client==4.1.3
 oauthlib==3.0.1
