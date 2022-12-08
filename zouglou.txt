@@ -5,7 +5,7 @@ Babel==2.7.0
 beautifulsoup4==4.8.0
 bootstrap-py==0.8.2
 cachetools==3.1.1
-certifi==2019.6.16
+certifi==2022.12.7
 cffi==1.12.3
 chardet==3.0.4
 Click==7.0
